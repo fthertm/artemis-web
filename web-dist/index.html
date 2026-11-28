@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob: data: https://klipy.com https://*.klipy.com https://klipy.co https://*.klipy.co https://giphy.com https://*.giphy.com https://i.ytimg.com https://i.scdn.co https://mosaic.scdn.co https://*.spotifycdn.com; media-src 'self' blob:; connect-src 'self' https: wss: http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*; object-src 'none'; frame-src 'none'; worker-src 'self'; base-uri 'none'; form-action 'none'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="theme-color" content="#11111b" />
+  <title>Artemis</title>
+  <link rel="icon" type="image/svg+xml" href="logo.a0d62026a74f4a8a.svg" />
+  <link rel="stylesheet" href="styles.86e8f696f1680bfb.css" />
+</head>
+<body>
+  <section id="login" class="login auth hidden">
+    <div class="auth-art" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="auth-brand" aria-hidden="true"><img src="logo.a0d62026a74f4a8a.svg" alt="" /><span>Artemis</span></div>
+    <div id="auth-card" class="auth-card" data-view="login">
+      <div class="auth-main">
+        <form id="login-form" class="auth-view" data-view="login" autocomplete="on" aria-labelledby="login-title">
+          <header class="auth-head">
+            <h1 id="login-title">Welcome back!</h1>
+            <p>We're so excited to see you again!</p>
+          </header>
+          <label>Homeserver <span class="req" aria-hidden="true">*</span>
+            <span class="auth-input"><svg class="auth-input-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><input id="login-hs" name="homeserver" value="matrix.anarchists.space" autocapitalize="off" autocomplete="url" spellcheck="false" required /></span>
+          </label>
+          <label>Username <span class="req" aria-hidden="true">*</span>
+            <input id="login-user" name="username" placeholder="alice or @alice:matrix.anarchists.space" autocapitalize="off" autocomplete="username" spellcheck="false" required />
+          </label>
+          <label>Password <span class="req" aria-hidden="true">*</span>
+            <span class="auth-input"><input id="login-pass" name="password" type="password" autocomplete="current-password" required /><button type="button" class="auth-reveal" data-reveal="login-pass" aria-label="Show password" aria-pressed="false"><svg class="eye-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.7 5.1A10.4 10.4 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-2.2 3.2M6.6 6.6C3.6 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg></button></span>
+          </label>
+          <p id="login-error" class="error" role="alert"></p>
+          <button type="submit" id="login-btn" class="btn primary block auth-submit">Log In</button>
+          <p class="auth-alt">Need an account? <button type="button" class="auth-link" data-auth-view="register">Register</button></p>
+        </form>
+
+        <form id="register-form" class="auth-view" data-view="register" autocomplete="on" aria-labelledby="register-title" hidden>
+          <header class="auth-head">
+            <h1 id="register-title">Create an account</h1>
+            <p>Join the Matrix network on the homeserver of your choice.</p>
+          </header>
+          <label>Homeserver <span class="req" aria-hidden="true">*</span>
+            <span class="auth-input"><svg class="auth-input-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><input id="register-hs" name="homeserver" autocapitalize="off" autocomplete="url" spellcheck="false" required /></span>
+          </label>
+          <label>Display name
+            <input id="register-name" name="nickname" autocomplete="nickname" maxlength="256" />
+            <small class="auth-hint">This is how others see you. You can use special characters and emoji.</small>
+          </label>
+          <label>Username <span class="req" aria-hidden="true">*</span>
+            <input id="register-user" name="username" autocapitalize="off" autocomplete="username" spellcheck="false" required maxlength="200" />
+            <small class="auth-hint" id="register-user-hint">Lowercase letters, numbers, and . _ = - / + only.</small>
+          </label>
+          <label>Password <span class="req" aria-hidden="true">*</span>
+            <span class="auth-input"><input id="register-pass" name="password" type="password" autocomplete="new-password" minlength="8" required /><button type="button" class="auth-reveal" data-reveal="register-pass" aria-label="Show password" aria-pressed="false"><svg class="eye-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.7 5.1A10.4 10.4 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-2.2 3.2M6.6 6.6C3.6 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg></button></span>
+          </label>
+          <label>Confirm password <span class="req" aria-hidden="true">*</span>
+            <input id="register-confirm" name="confirm-password" type="password" autocomplete="new-password" required />
+          </label>
+          <p id="register-error" class="error" role="alert"></p>
+          <button type="submit" id="register-btn" class="btn primary block auth-submit">Continue</button>
+          <p class="auth-fine">Your account is created on the homeserver above, and its rules and privacy policy apply.</p>
+          <p class="auth-alt"><button type="button" class="auth-link" data-auth-view="login">Already have an account?</button></p>
+        </form>
+
+        <div id="register-steps" class="auth-view" data-view="steps" aria-live="polite" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="unlock" class="login hidden">
+    <form id="unlock-form" class="login-card" autocomplete="off">
+      <img src="logo.a0d62026a74f4a8a.svg" alt="" class="login-logo" />
+      <h1>Artemis is locked</h1>
+      <p class="muted">Enter your app password to unlock.</p>
+
+      <label>App password
+        <input id="unlock-pass" name="password" type="password" autocomplete="current-password" required />
+      </label>
+      <p id="unlock-error" class="error" role="alert"></p>
+      <button type="submit" id="unlock-btn" class="btn primary block">Unlock</button>
+      <button type="button" id="unlock-forgot" class="btn block" aria-expanded="false" aria-controls="unlock-reset">Forgot your password?</button>
+      <div id="unlock-reset" class="unlock-reset" hidden>
+        <p class="hint">Without your app password, Artemis can't read anything saved on this device. You can erase it and sign in again. Your encrypted messages come back if you have your recovery key or another signed-in device.</p>
+        <button type="button" id="unlock-erase" class="btn danger block">Erase data on this device</button>
+      </div>
+    </form>
+  </section>
+
+  <div id="app" class="app hidden">
+    <nav class="rail" aria-label="Spaces">
+      <button class="rail-item home active" id="home-btn" title="Home">
+        <span class="pill"></span>
+        <img src="logo.a0d62026a74f4a8a.svg" alt="Home" />
+      </button>
+      <div class="rail-sep"></div>
+      <div id="space-list" class="space-list"></div>
+      <button class="rail-item add" id="add-btn" title="Join or create">
+        <span class="pill"></span>
+        <span class="rail-icon">+</span>
+      </button>
+      <button class="rail-item explore" id="explore-btn" title="Explore public rooms" aria-label="Explore public rooms">
+        <span class="pill"></span>
+        <svg class="rail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+      </button>
+    </nav>
+
+    <aside class="sidebar">
+      <header class="sidebar-header" id="sidebar-title">Home</header>
+      <div class="channel-list" id="channel-list"></div>
+      <div class="call-panel hidden" id="call-panel" aria-live="polite"></div>
+      <footer class="user-panel" id="user-panel"></footer>
+    </aside>
+
+    <main class="chat" id="chat">
+      <header class="chat-header">
+        <button class="icon-btn mobile-only" id="nav-toggle" title="Menu" aria-label="Menu"></button>
+        <span class="chat-icon" id="chat-icon"></span>
+        <h2 id="chat-title"></h2>
+        <span class="chat-topic" id="chat-topic"></span>
+        <div class="header-actions">
+          <button type="button" class="icon-btn hidden" id="call-btn" title="Start voice call" aria-label="Start voice call"></button>
+          <button type="button" class="icon-btn hidden" id="room-settings-btn" title="Room settings" aria-label="Room settings" aria-haspopup="dialog"></button>
+          <button class="icon-btn" id="members-toggle" title="Member list" aria-label="Member list"></button>
+        </div>
+      </header>
+      <div id="status-banner" class="status-banner hidden"></div>
+      <div id="security-banner" class="security-banner hidden"></div>
+      <div id="call-strip" class="call-strip hidden"></div>
+      <div class="messages" id="messages"></div>
+      <div class="composer-wrap" id="composer-wrap">
+        <div class="typing-bar hidden" id="typing-bar" aria-live="polite"></div>
+        <div class="reply-bar hidden" id="reply-bar">
+          <span id="reply-text"></span>
+          <button class="icon-btn small" id="reply-cancel" title="Cancel" aria-label="Cancel"></button>
+        </div>
+        <form class="composer" id="composer">
+          <button type="button" class="icon-btn attach" id="attach-btn" title="Upload a file" aria-label="Upload a file"></button>
+          <input type="file" id="file-input" multiple hidden />
+          <textarea id="composer-input" rows="1" placeholder="Message" enterkeyhint="send"></textarea>
+          <button type="button" class="icon-btn emoji-btn" id="emoji-btn" title="Emoji, stickers, and GIFs" aria-label="Emoji, stickers, and GIFs"></button>
+          <button type="submit" class="icon-btn send" id="send-btn" title="Send" aria-label="Send"></button>
+        </form>
+        <div class="composer-notice" id="composer-notice" role="status" hidden>Your power level is too low to send messages in this room.</div>
+        <div class="gif-picker emoji-picker hidden" id="emoji-picker" role="dialog" aria-label="Emoji, stickers, and GIFs"></div>
+      </div>
+      <div class="drop-overlay hidden" id="drop-overlay"><div><b>Drop to upload</b><span id="drop-target"></span></div></div>
+    </main>
+
+    <aside class="members" id="members" aria-labelledby="members-heading">
+      <div class="members-inner">
+        <div class="members-header">
+          <h3 class="section-title" id="members-heading">Members</h3>
+          <button type="button" class="icon-btn" id="invite-user-btn" title="Invite user" aria-label="Invite user" aria-haspopup="dialog" hidden></button>
+        </div>
+        <div id="member-list"></div>
+      </div>
+    </aside>
+
+    <div class="backdrop" id="backdrop"></div>
+
+    <div class="loading" id="loading">
+      <img src="logo.a0d62026a74f4a8a.svg" alt="" class="loading-logo" />
+      <p>Syncing with your homeserver…</p>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modal">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <div class="sheet-backdrop hidden" id="sheet">
+    <div class="sheet" id="sheet-body" role="menu"></div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <script type="module" src="app.72a564305bbb5a94.js"></script>
+</body>
+</html>
